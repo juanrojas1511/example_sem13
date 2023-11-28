@@ -6,40 +6,48 @@ using System.Threading.Tasks;
 
 namespace example_sem13
 {
-    internal class encuesta
+   internal class encuesta
     {
         private const int MaxRPTA = 100;
-        private string[] RptaTexto = new string[MaxRPTA];
-        private int[] RptaContador = new int[5];
-        private int totalRpta = 0;
+        private string[] rpta_Texto = new string[MaxRPTA];
+        private int[] rpta_Contador = new int[5];
+        private int Total_Rpta = 0;
 
         public void RealizarEncuesta()
         {
             Console.Clear();
-            MostrarEncabezado("Nivel de Satisfacción");
+            Mostrar_Encabezado("Nivel de Satisfacción");
             Console.WriteLine("¿Qué tan satisfecho está con la atención de nuestra tienda?");
             Console.WriteLine("1: Nada satisfecho");
-            Console.WriteLine("2: No muy satisfech");
+            Console.WriteLine("2: No muy satisfecho");
             Console.WriteLine("3: Tolerable");
             Console.WriteLine("4: Satisfecho");
             Console.WriteLine("5: Muy satisfecho");
+            Console.WriteLine("============================");
+            Console.WriteLine("Ingrese una opción:");
             int opcion = int.Parse(Console.ReadLine());
 
             if (opcion >= 1 && opcion <= 5)
             {
-                RptaContador[opcion - 1]++;
-                totalRpta++;
-                RptaTexto[totalRpta - 1] = OpcionATexto(opcion);
+                rpta_Contador[opcion - 1]++;
+                Total_Rpta++;
+                rpta_Texto[Total_Rpta - 1] = OpcionATexto(opcion);
 
                 Console.Clear();
-                MostrarEncabezado("¡Gracias por participar!");
-                MostrarMensaje("Presione una tecla para regresar al menú ...");
+                Mostrar_Encabezado("Nivel de Satisfacción");
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("¡Gracias por participar!");
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("============================");
+                Mostrar_Mensaje("Presione una tecla para regresar al menú ...");
                 Console.ReadKey();
             }
             else
             {
-                MostrarMensaje("Opción no válida. Inténtelo de nuevo.");
-                MostrarMensaje("Presione una tecla para regresar al menú ...");
+                Mostrar_Mensaje("Inténtelo de nuevo.");
+                Mostrar_Mensaje("Presione una tecla para regresar al menú ...");
                 Console.ReadKey();
             }
         }
@@ -47,51 +55,50 @@ namespace example_sem13
         public void VerDatosRegistrados()
         {
             Console.Clear();
-            MostrarEncabezado("Ver datos registrados");
-            MostrarDatos();
+            Mostrar_Encabezado("Ver datos registrados");
+            Mostrar_Datos();
 
             Console.WriteLine("\nPresione una tecla para regresar ...");
             Console.ReadKey();
         }
 
-        public void EliminarDato()
+        public void Eliminar_Dato()
         {
             Console.Clear();
-            MostrarEncabezado("Eliminar un dato");
-            MostrarDatos();
+            Mostrar_Encabezado("Eliminar un dato");
+            Mostrar_Datos();
+            Console.WriteLine("===============================");
             Console.Write("Ingrese la posición a eliminar: ");
             int posicion = int.Parse(Console.ReadLine());
 
-            if (EsPosicionValida(posicion))
+            if (EsPosicion_Valida(posicion))
             {
-                int opcion = TextoAOpcion(RptaTexto[posicion]);
-                RptaContador[opcion - 1]--;
-                totalRpta--;
+                int opcion = Texto_Opcion(rpta_Texto[posicion]);
+                rpta_Contador[opcion - 1]--;
+                Total_Rpta--;
 
-                for (int i = posicion; i < totalRpta; i++)
+                for (int i = posicion; i < Total_Rpta; i++)
                 {
-                    RptaTexto[i] = RptaTexto[i + 1];
-                }
-
-                Console.Clear();
-                MostrarEncabezado($"Posición {posicion} eliminada.");
-                MostrarMensaje("Presione una tecla para regresar ...");
+                    rpta_Texto[i] = rpta_Texto[i + 1];
+                } 
+                Mostrar_Encabezado($"Posición {posicion} eliminada.");
+                Mostrar_Mensaje("Presione una tecla para regresar ...");
                 Console.ReadKey();
             }
             else
             {
-                MostrarMensaje("Posición no válida. Inténtelo de nuevo.");
-                MostrarMensaje("Presione una tecla para regresar ...");
+                Mostrar_Mensaje("Inténtelo de nuevo.");
+                Mostrar_Mensaje("Presione una tecla para regresar ...");
                 Console.ReadKey();
             }
         }
 
-        public void OrdenarDatos()
+        public void Ordenar_Datos()
         {
             Console.Clear();
-            MostrarEncabezado("Ordenar datos");
-            Array.Sort(RptaTexto, 0, totalRpta);
-            MostrarDatos();
+            Mostrar_Encabezado("Ordenar datos");
+            Array.Sort(rpta_Texto, 0, Total_Rpta);
+            Mostrar_Datos();
 
             Console.WriteLine("\nPresione una tecla para regresar ...");
             Console.ReadKey();
@@ -110,7 +117,7 @@ namespace example_sem13
             }
         }
 
-        private static int TextoAOpcion(string texto)
+        private static int Texto_Opcion(string texto)
         {
             switch (texto)
             {
@@ -123,44 +130,44 @@ namespace example_sem13
             }
         }
 
-        private bool EsPosicionValida(int posicion)
+        private bool EsPosicion_Valida(int posicion)
         {
-            return posicion >= 0 && posicion < totalRpta;
+            return posicion >= 0 && posicion < Total_Rpta;
         }
 
-        private void MostrarDatos()
+        private void Mostrar_Datos()
         {
             Console.WriteLine("===============================");
             Console.WriteLine("Datos registrados");
             Console.WriteLine("===============================");
 
-            for (int i = 0; i < totalRpta; i++)
+            for (int i = 0; i < Total_Rpta; i++)
             {
-                Console.Write($"[{RptaTexto[i]}] ");
+                Console.Write($"[{rpta_Texto[i]}] ");
                 if ((i + 1) % 5 == 0)
                     Console.WriteLine();
             }
 
-            MostrarResumen();
+            Mostrar_Resumen();
         }
 
-        private void MostrarResumen()
+        private void Mostrar_Resumen()
         {
             Console.WriteLine("\nResumen:");
-            for (int i = 0; i < RptaContador.Length; i++)
+            for (int i = 0; i < rpta_Contador.Length; i++)
             {
-                Console.WriteLine($"{RptaContador[i]:D2} personas: {RptaTexto[i]}");
+                Console.WriteLine($"{rpta_Contador[i]:D2} personas: {rpta_Texto[i]}");
             }
         }
 
-        private static void MostrarEncabezado(string titulo)
+        private static void Mostrar_Encabezado(string titulo)
         {
             Console.WriteLine("===============================");
             Console.WriteLine(titulo);
             Console.WriteLine("===============================");
         }
 
-        private static void MostrarMensaje(string mensaje)
+        private static void Mostrar_Mensaje(string mensaje)
         {
             Console.WriteLine(mensaje);
         }
