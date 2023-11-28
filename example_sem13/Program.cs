@@ -33,16 +33,16 @@ namespace example_sem13
                         encuestas.VerDatosRegistrados();
                         break;
                     case 3:
-                        encuestas.EliminarDato();
+                        encuestas.Eliminar_Dato();
                         break;
                     case 4:
-                        encuestas.OrdenarDatos();
+                        encuestas.Ordenar_Datos();
                         break;
                     case 5:
                         Console.WriteLine("¡Hasta luego!");
                         break;
                     default:
-                        Console.WriteLine("Elija una opcion que este ahi. Inténtelo de nuevo.");
+                        Console.WriteLine("Inténtelo de nuevo.");
                         Console.WriteLine("Presione una tecla para regresar al menú ...");
                         Console.ReadKey();
                         break;
